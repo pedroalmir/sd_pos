@@ -23,11 +23,12 @@ public abstract class Client {
 	 * Send a Message
 	 * 
 	 * @param message
+	 * @param wait
 	 * @return response from server
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	public abstract String sendMessage(String message) throws UnknownHostException, IOException;
+	public abstract String sendMessage(String message, boolean wait) throws UnknownHostException, IOException;
 	
 	/**
 	 * Close Connection

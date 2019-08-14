@@ -10,6 +10,8 @@ public abstract class Server {
 	protected int reqNum;
 	/** Flag used to close server */
 	protected boolean closeFlag;
+	/** Server port */
+	protected int port;
 	
 	/**
 	 * @param upTime
@@ -25,6 +27,14 @@ public abstract class Server {
 	 * Start server 
 	 */
 	public abstract void start(int port) throws IOException;
+	
+	/**
+	 * @throws IOException
+	 */
+	public void restart() throws IOException{
+		stop();
+		start(this.port);
+	}
 	
 	/**
 	 * Stop server 
@@ -46,7 +56,7 @@ public abstract class Server {
 		long diffHours = diff / (60 * 60 * 1000) % 24;
 		long diffDays = diff / (24 * 60 * 60 * 1000);
 		
-		return String.format("%f days, %f hours, %f minutes and %f seconds.", diffDays, diffHours, diffMinutes, diffSeconds);
+		return String.format("%d day(s), %d hour(s), %d minute(s) and %d seconds.", diffDays, diffHours, diffMinutes, diffSeconds);
 	}
 	
 	/**

@@ -32,17 +32,23 @@ public class TCPClient extends Client {
 	
 	/**
 	 * @param message
+	 * @param wait
 	 * @return response from servers
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	public String sendMessage(String message) throws UnknownHostException, IOException{
+	public String sendMessage(String message, boolean wait) throws UnknownHostException, IOException{
 		DataOutputStream outToServer = new DataOutputStream(this.socket.getOutputStream());
-		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-
 		outToServer.writeBytes(message + '\n');
 		
-		return inFromServer.readLine();
+		if(wait){
+			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+			while(!inFromServer.ready()){/* Wait */}
+			
+			return inFromServer.readLine();
+		}
+		
+		return null;
 	}
 	
 	/**

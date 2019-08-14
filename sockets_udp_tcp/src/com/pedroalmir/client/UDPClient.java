@@ -30,7 +30,7 @@ public class UDPClient extends Client {
 	}
 
 	@Override
-	public String sendMessage(String message) throws UnknownHostException, IOException {
+	public String sendMessage(String message, boolean wait) throws UnknownHostException, IOException {
 		byte[] sendData = new byte[1024]; 
 		byte[] receiveData = new byte[1024];
 		sendData = message.getBytes();
@@ -39,11 +39,15 @@ public class UDPClient extends Client {
 		
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, this.port);
 		this.socket.send(sendPacket);
-
-		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-		this.socket.receive(receivePacket);
-
-		return new String(receivePacket.getData());
+		
+		if(wait){
+			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			this.socket.receive(receivePacket);
+			
+			return new String(receivePacket.getData());
+		}
+		
+		return null;
 	}
 
 	@Override
